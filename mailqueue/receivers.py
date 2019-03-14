@@ -11,6 +11,8 @@ from . import defaults
 
 @receiver(post_save, sender=MailerMessage)
 def send_post_save(sender, instance, signal, *args, **kwargs):
+    if instance.sent:
+        return
     if getattr(instance, "do_not_send", False):
         instance.do_not_send = False
         return
